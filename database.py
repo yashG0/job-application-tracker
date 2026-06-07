@@ -1,4 +1,5 @@
 from os import getenv
+from typing import AsyncGenerator
 
 from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
@@ -28,7 +29,7 @@ async def create_tables_and_db() -> None:
         await conn.run_sync(Base.metadata.create_all)
 
 
-async def get_db():
+async def get_db() -> AsyncGenerator[AsyncSession, None]:
     sess: AsyncSession = AsyncSessionLocal()
     try:
         yield sess
