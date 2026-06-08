@@ -13,7 +13,19 @@ class ApplicationService:
         self, new_application: ApplicationInSchema
     ) -> ApplicationOutSchema:
 
-        res: Application = await self.app_repo.create(**new_application.model_dump())
+        res: Application = await self.app_repo.create(
+            Application(
+                company=new_application.company,
+                position=new_application.position,
+                location=new_application.location,
+                job_url=str(new_application.job_url)
+                if new_application.job_url
+                else None,
+                status=new_application.status,
+                notes=new_application.notes,
+                resume_path=new_application.resume_path,
+            )
+        )
         return ApplicationOutSchema.model_validate(res)
 
     async def get_by_id(self, application_id: int) -> ApplicationOutSchema:
