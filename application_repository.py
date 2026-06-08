@@ -17,7 +17,7 @@ class ApplicationRepository:
     async def get_by_id(self, application_id: int) -> Application | None:
         return await self.session.get(Application, application_id)
 
-    async def get_all_applications(self) -> list[Application]:
+    async def get_all(self) -> list[Application]:
         result = await self.session.scalars(select(Application))
         return list(result)
 
