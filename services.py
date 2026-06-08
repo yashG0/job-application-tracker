@@ -2,12 +2,31 @@ from fastapi import HTTPException, status
 
 from application_repository import ApplicationRepository
 from model import Application, ApplicationStatus
-from schema import ApplicationInSchema, ApplicationOutSchema
+from schema import ApplicationInSchema, ApplicationOutSchema, DashboardStatsSchema
 
 
 class ApplicationService:
     def __init__(self, app_repo: ApplicationRepository):
         self.app_repo: ApplicationRepository = app_repo
+
+    async def delete(self, app_id: int) -> None:
+        is_deleted = await self.app_repo.delete(app_id)
+        if not is_deleted:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Application with id {app_id} not found!",
+            )
+
+    async def update_status(
+        self, app_id: int, new_status: ApplicationStatus
+    ) -> ApplicationOutSchema:
+        app: Application | None = await self.app_repo.update_status(app_id, new_status)
+        if app is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Application with id {app_id} not found!",
+            )
+        return ApplicationOutSchema.model_validate(app)
 
     async def create(
         self, new_application: ApplicationInSchema
@@ -41,8 +60,8 @@ class ApplicationService:
         applications = await self.app_repo.get_all()
         return [ApplicationOutSchema.model_validate(app) for app in applications]
 
-    async def delete(self, app_id: int) -> None:
-        is_deleted = await self.app_repo.delete(app_id)
+    async def delete_app(self, app_id: int) -> None:
+        is_deleted = await self.app_repo.delete_app(app_id)
         if not is_deleted:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -54,3 +73,31 @@ class ApplicationService:
     ) -> list[ApplicationOutSchema]:
         applications = await self.app_repo.get_by_status(app_status)
         return [ApplicationOutSchema.model_validate(app) for app in applications]
+
+    async def dashboard(self) -> DashboardStatsSchema:
+        result: list[
+            tuple[ApplicationStatus, int]
+        ] = await self.app_repo.dashboard_status()
+
+        stats = {
+            "wishlist": 0,
+            "applied": 0,
+            "assessment": 0,
+            "interview": 0,
+            "offer": 0,
+            "rejected": 0,
+        }
+        total = 0
+        for app_status, count in result:
+            stats[app_status.name] = count
+            total += count
+
+        return DashboardStatsSchema(
+            total=total,
+            wishlist=stats["wishlist"],
+            applied=stats["applied"],
+            assessment=stats["assessment"],
+            interview=stats["interview"],
+            offer=stats["offer"],
+            rejected=stats["rejected"],
+        )
