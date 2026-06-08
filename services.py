@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 
 from application_repository import ApplicationRepository
-from model import Application
+from model import Application, ApplicationStatus
 from schema import ApplicationInSchema, ApplicationOutSchema
 
 
@@ -36,3 +36,9 @@ class ApplicationService:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Application with id {app_id} not found!",
             )
+
+    async def count_by_status(
+        self, app_status: ApplicationStatus
+    ) -> list[ApplicationOutSchema]:
+        applications = await self.app_repo.get_by_status(app_status)
+        return [ApplicationOutSchema.model_validate(app) for app in applications]

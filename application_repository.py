@@ -31,10 +31,10 @@ class ApplicationRepository:
 
     async def get_by_status(
         self,
-        status: ApplicationStatus,
+        app_status: ApplicationStatus,
     ) -> list[Application]:
         result = await self.session.scalars(
-            select(Application).where(Application.status == status)
+            select(Application).where(Application.status == app_status)
         )
 
         return list(result)
