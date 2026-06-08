@@ -69,6 +69,4 @@ class ApplicationRepository:
             ).group_by(Application.status)
         )
 
-        return [
-            (status,count) for status,count in result
-        ]
+        return [(status, count) for status, count in result]

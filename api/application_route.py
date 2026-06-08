@@ -35,7 +35,7 @@ async def get_dashboard(sess: AsyncSession = Depends(get_db)):
     service = ApplicationService(repo)
     return await service.dashboard()
 
-    
+
 @application_routes.get(
     "/{app_id}", response_model=ApplicationOutSchema, status_code=status.HTTP_200_OK
 )
