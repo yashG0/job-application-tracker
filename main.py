@@ -1,12 +1,12 @@
-import asyncio
+import uvicorn
+from fastapi import FastAPI
 
-from database import create_tables_and_db
+from api.application_route import application_routes
 
+app = FastAPI()
 
-async def main():
-    print("Hello from job-application-tracker!")
-    await create_tables_and_db()
+app.include_router(application_routes)
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    uvicorn.run(app, reload=True)
