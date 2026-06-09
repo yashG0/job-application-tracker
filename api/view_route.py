@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from application_repository import ApplicationRepository
 from core.database import get_db
 from core.template import templates
+from model import ApplicationStatus
 from services import ApplicationService
 
 view_route = APIRouter(prefix="/pages", tags=["Pages"])
@@ -44,4 +45,27 @@ async def get_application_by_id(
         request=request,
         name="application_detail.html",
         context={"application": application},
+    )
+
+
+@view_route.get("/applications/filter/{status}")
+async def filter_applications(
+    status: str,
+    request: Request,
+    sess: AsyncSession = Depends(get_db),
+):
+    app_repo = ApplicationRepository(sess)
+    app_service = ApplicationService(app_repo)
+
+    if status == "all":
+        applications = await app_service.get_all()
+    else:
+        applications = await app_service.count_by_status(ApplicationStatus[status])
+
+    return templates.TemplateResponse(
+        request=request,
+        name="partials/application_list.html",
+        context={
+            "applications": applications,
+        },
     )

@@ -7,41 +7,35 @@ content %} {% block styles %}
     <h1>Applications</h1>
     <p>Manage and track all your job applications.</p>
 </section>
+<div class="filter-bar">
+    <button
+        hx-get="/pages/applications/filter/all"
+        hx-target="#application-list"
+    >
+        All
+    </button>
 
-<section class="applications-grid">
-    {% for app in applications %}
-    <a href="/pages/application/{{ app.id }}" class="application-link">
-        <article class="application-card">
-            <div class="card-header">
-                <h2>{{ app.company }}</h2>
+    <button
+        hx-get="/pages/applications/filter/applied"
+        hx-target="#application-list"
+    >
+        Applied
+    </button>
 
-                <span class="status-badge status-{{ app.status.name }}">
-                    {{ app.status.value }}
-                </span>
-            </div>
+    <button
+        hx-get="/pages/applications/filter/interview"
+        hx-target="#application-list"
+    >
+        Interview
+    </button>
 
-            <div class="card-body">
-                <div class="info-row">
-                    <span class="label"> Position </span>
-
-                    <span class="value"> {{ app.position }} </span>
-                </div>
-
-                <div class="info-row">
-                    <span class="label"> Location </span>
-
-                    <span class="value"> {{ app.location }} </span>
-                </div>
-
-                {% if app.notes %}
-
-                <div class="notes">{{ app.notes }}</div>
-
-                {% endif %}
-            </div>
-        </article>
-    </a>
-    {% endfor %}
-</section>
+    <button
+        hx-get="/pages/applications/filter/offer"
+        hx-target="#application-list"
+    >
+        Offer
+    </button>
+</div>
+<div id="application-list">{% include "partials/application_list.html" %}</div>
 
 {% endblock %}

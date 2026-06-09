@@ -1,0 +1,31 @@
+<section class="applications-grid">
+    {% for app in applications %}
+
+    <a href="/pages/application/{{ app.id }}" class="application-link">
+        <article class="application-card">
+            <div class="card-header">
+                <h2>{{ app.company }}</h2>
+
+                <span class="status-badge status-{{ app.status.name }}">
+                    {{ app.status.value }}
+                </span>
+            </div>
+
+            <div class="card-body">
+                <div class="info-row">
+                    <span class="label"> Position </span>
+
+                    <span class="value"> {{ app.position }} </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label"> Location </span>
+
+                    <span class="value"> {{ app.location }} </span>
+                </div>
+            </div>
+        </article>
+    </a>
+
+    {% endfor %}
+</section>
