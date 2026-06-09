@@ -19,3 +19,15 @@ async def dashboard(request: Request, sess: AsyncSession = Depends(get_db)):
         name="dashboard.html",
         context={"stats": stats},
     )
+
+
+@view_route.get("/applications")
+async def applications(request: Request, sess: AsyncSession = Depends(get_db)):
+    app_repo = ApplicationRepository(sess)
+    app_service = ApplicationService(app_repo)
+    applications = await app_service.get_all()
+    return templates.TemplateResponse(
+        request=request,
+        name="applications.html",
+        context={"applications": applications},
+    )

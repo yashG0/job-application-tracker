@@ -7,6 +7,7 @@
 
         <link rel="stylesheet" href="/static/css/style.css" />
         <script src="https://unpkg.com/htmx.org@2.0.7"></script>
+        {% block styles %} {% endblock %}
     </head>
     <body>
         <nav class="navbar">
@@ -15,11 +16,11 @@
 
                 <ul class="nav-links">
                     <li>
-                        <a href="/"> Dashboard </a>
+                        <a href="/pages/dashboard"> Dashboard </a>
                     </li>
 
                     <li>
-                        <a href="/application"> Applications </a>
+                        <a href="/pages/applications"> Applications </a>
                     </li>
                 </ul>
             </div>
