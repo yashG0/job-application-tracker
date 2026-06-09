@@ -31,3 +31,17 @@ async def applications(request: Request, sess: AsyncSession = Depends(get_db)):
         name="applications.html",
         context={"applications": applications},
     )
+
+
+@view_route.get("/application/{app_id}")
+async def get_application_by_id(
+    app_id: int, request: Request, sess: AsyncSession = Depends(get_db)
+):
+    app_repo = ApplicationRepository(sess)
+    app_service = ApplicationService(app_repo)
+    application = await app_service.get_by_id(app_id)
+    return templates.TemplateResponse(
+        request=request,
+        name="application_detail.html",
+        context={"application": application},
+    )

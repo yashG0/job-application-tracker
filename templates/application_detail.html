@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block styles %}
+<link rel="stylesheet" href="/static/css/app_style.css" />
+{% endblock %} {% block title %} {{ application.company }} {% endblock %} {%
+block content %}
+
+<section class="detail-page">
+    <div class="detail-card">
+        <div class="detail-header">
+            <h1>{{ application.company }}</h1>
+
+            <span class="status-badge status-{{ application.status.name }}">
+                {{ application.status.value }}
+            </span>
+        </div>
+
+        <div class="detail-grid">
+            <div>
+                <strong>Position</strong>
+                <p>{{ application.position }}</p>
+            </div>
+
+            <div>
+                <strong>Location</strong>
+                <p>{{ application.location }}</p>
+            </div>
+        </div>
+
+        {% if application.notes %}
+
+        <div class="notes-box">
+            <strong>Notes</strong>
+
+            <p>{{ application.notes }}</p>
+        </div>
+
+        {% endif %} {% if application.job_url %}
+
+        <div class="job-link">
+            <a href="{{ application.job_url }}" target="_blank">
+                View Job Posting
+            </a>
+        </div>
+
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}
