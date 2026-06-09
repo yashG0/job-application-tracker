@@ -1,13 +1,16 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 
 from api.application_route import application_routes
+from api.view_route import view_route
+from core.static import static_files
 
 app = FastAPI()
 
-templates = Jinja2Templates(directory="templates")
+app.mount(
+    "/static",
+    static_files,
+    name="static",
+)
 
 app.include_router(application_routes)
-
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.include_router(view_route)

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{% block title %} Job Application Tracker {% endblock %}</title>
+
+        <link rel="stylesheet" href="/static/css/style.css" />
+        <script src="https://unpkg.com/htmx.org@2.0.7"></script>
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="container">
+                <h1 class="logo">Job Application Tracker</h1>
+
+                <ul class="nav-links">
+                    <li>
+                        <a href="/"> Dashboard </a>
+                    </li>
+
+                    <li>
+                        <a href="/application"> Applications </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="container">{% block content %} {% endblock %}</main>
+
+        <script src="/static/js/script.js"></script>
+    </body>
+</html>

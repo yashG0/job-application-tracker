@@ -1,8 +1,9 @@
+from core.database import get_db
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from application_repository import ApplicationRepository
-from database import get_db
+
 from model import ApplicationStatus
 from schema import ApplicationInSchema, ApplicationOutSchema, DashboardStatsSchema
 from services import ApplicationService
