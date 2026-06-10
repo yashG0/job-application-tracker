@@ -101,3 +101,12 @@ class ApplicationService:
             offer=stats["offer"],
             rejected=stats["rejected"],
         )
+
+    async def search(
+        self,
+        query: str,
+    ) -> list[ApplicationOutSchema]:
+
+        applications = await self.app_repo.search(query)
+
+        return [ApplicationOutSchema.model_validate(app) for app in applications]

@@ -1,12 +1,34 @@
 {% extends "base.html" %} {% block title %} Applications {% endblock %} {% block
-content %} {% block styles %}
+styles %}
 <link rel="stylesheet" href="/static/css/app_style.css" />
-{% endblock %}
-
+{% endblock %} {% block content %}
 <section class="page-header">
     <h1>Applications</h1>
     <p>Manage and track all your job applications.</p>
 </section>
+<div id="success-message"></div>
+<!--<div class="success-alert">✓ Application created successfully</div>-->
+<div class="page-actions">
+    <button
+        class="primary-btn"
+        hx-get="/pages/applications/new"
+        hx-target="#form-container"
+    >
+        + New Application
+    </button>
+</div>
+
+<div id="form-container"></div>
+<div class="search-container">
+    <input
+        type="text"
+        name="q"
+        placeholder="Search companies..."
+        hx-get="/pages/applications/search"
+        hx-trigger="keyup changed delay:300ms"
+        hx-target="#application-list"
+    />
+</div>
 <div class="filter-bar">
     <button
         hx-get="/pages/applications/filter/all"

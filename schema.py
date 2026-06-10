@@ -13,7 +13,7 @@ class ApplicationInSchema(ApplicationSchemaBase):
     company: str = Field(max_length=100, min_length=2)
     position: str = Field(max_length=100, min_length=2)
     location: str | None
-    job_url: HttpUrl | None
+    job_url: HttpUrl | None | str
     status: ApplicationStatus = Field(default=ApplicationStatus.wishlist)
     notes: str | None
     resume_path: str | None

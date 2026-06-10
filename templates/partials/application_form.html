@@ -1,0 +1,30 @@
+<form
+    class="application-form"
+    hx-post="/pages/applications/new"
+    hx-target="#application-list"
+    hx-on::after-request="
+        this.reset();
+
+        const msg =
+        document.getElementById('success-message');
+
+        msg.innerHTML =
+        '<div class=&quot;success-alert&quot;>✓ Application created successfully</div>';
+
+        setTimeout(() => {
+            msg.innerHTML = '';
+        }, 3000);
+    "
+>
+    <input type="text" name="company" placeholder="Company" required />
+
+    <input type="text" name="position" placeholder="Position" required />
+
+    <input type="text" name="location" placeholder="Location" />
+
+    <input type="url" name="job_url" placeholder="Job URL" />
+
+    <textarea name="notes" placeholder="Notes"></textarea>
+
+    <button type="submit" class="primary-btn">Create Application</button>
+</form>

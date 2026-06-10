@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Form, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from application_repository import ApplicationRepository
 from core.database import get_db
 from core.template import templates
 from model import ApplicationStatus
+from schema import ApplicationInSchema
 from services import ApplicationService
 
 view_route = APIRouter(prefix="/pages", tags=["Pages"])
@@ -62,6 +63,68 @@ async def filter_applications(
     else:
         applications = await app_service.count_by_status(ApplicationStatus[status])
 
+    return templates.TemplateResponse(
+        request=request,
+        name="partials/application_list.html",
+        context={
+            "applications": applications,
+        },
+    )
+
+
+@view_route.get("/applications/search")
+async def search_applications(
+    request: Request,
+    q: str = Query(default=""),
+    sess: AsyncSession = Depends(get_db),
+):
+    app_repo = ApplicationRepository(sess)
+    app_service = ApplicationService(app_repo)
+    if not q.strip():
+        applications = await app_service.get_all()
+    applications = await app_service.search(q)
+    return templates.TemplateResponse(
+        request=request,
+        name="partials/application_list.html",
+        context={
+            "applications": applications,
+        },
+    )
+
+
+@view_route.get("/applications/new")
+async def new_application_form(
+    request: Request,
+):
+    return templates.TemplateResponse(
+        request=request,
+        name="partials/application_form.html",
+        context={},
+    )
+
+
+@view_route.post("/applications/new")
+async def create_application(
+    request: Request,
+    company: str = Form(...),
+    position: str = Form(...),
+    location: str | None = Form(None),
+    job_url: str | None = Form(None),
+    notes: str | None = Form(None),
+    sess: AsyncSession = Depends(get_db),
+):
+    repo = ApplicationRepository(sess)
+    service = ApplicationService(repo)
+    new_app = ApplicationInSchema(
+        company=company,
+        position=position,
+        location=location,
+        job_url=job_url,
+        notes=notes,
+        resume_path=None,
+    )
+    await service.create(new_app)
+    applications = await service.get_all()
     return templates.TemplateResponse(
         request=request,
         name="partials/application_list.html",

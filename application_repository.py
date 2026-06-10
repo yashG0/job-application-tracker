@@ -70,3 +70,16 @@ class ApplicationRepository:
         )
 
         return [(status, count) for status, count in result]
+
+    async def search(
+        self,
+        query: str,
+    ) -> list[Application]:
+
+        result = await self.session.scalars(
+            select(Application)
+            .where(Application.company.ilike(f"%{query}%"))
+            .order_by(Application.company)
+        )
+
+        return list(result)
