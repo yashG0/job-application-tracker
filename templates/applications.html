@@ -1,63 +1,127 @@
 {% extends "base.html" %} {% block title %} Applications {% endblock %} {% block
-styles %}
-<link rel="stylesheet" href="/static/css/app_style.css" />
-{% endblock %} {% block content %}
-<section class="page-header">
-    <h1>Applications</h1>
-    <p>Manage and track all your job applications.</p>
-</section>
-<div id="success-message"></div>
-<!--<div class="success-alert">✓ Application created successfully</div>-->
-<div class="page-actions">
+content %}
+<section class="page-header page-header-with-actions">
+    <div>
+        <p class="eyebrow">Pipeline</p>
+        <h1>Applications</h1>
+        <p>Manage every role, company, and next step in one focused workspace.</p>
+    </div>
+
     <button
-        class="primary-btn"
+        class="btn btn-primary"
+        type="button"
         hx-get="/pages/applications/new"
         hx-target="#form-container"
+        hx-indicator="#global-loader"
+        aria-controls="form-container"
     >
-        + New Application
+        <span aria-hidden="true">+</span>
+        New Application
     </button>
-</div>
+</section>
+
+<div id="notification-region" class="notification-region" aria-live="polite"></div>
 
 <div id="form-container"></div>
-<div class="search-container">
-    <input
-        type="text"
-        name="q"
-        placeholder="Search companies..."
-        hx-get="/pages/applications/search"
-        hx-trigger="keyup changed delay:300ms"
-        hx-target="#application-list"
-    />
+
+<section class="toolbar" aria-label="Application controls">
+    <label class="search-field">
+        <span class="sr-only">Search companies</span>
+        <span class="search-icon" aria-hidden="true">/</span>
+        <input
+            type="search"
+            name="q"
+            placeholder="Search companies, roles, or locations..."
+            autocomplete="off"
+            hx-get="/pages/applications/search"
+            hx-trigger="keyup changed delay:300ms, search"
+            hx-target="#application-list"
+            hx-indicator="#global-loader"
+        />
+    </label>
+
+    <div class="filter-bar" role="group" aria-label="Filter applications by status">
+        <button
+            class="filter-chip active"
+            type="button"
+            aria-pressed="true"
+            hx-get="/pages/applications/filter/all"
+            hx-target="#application-list"
+            hx-indicator="#global-loader"
+        >
+            All
+        </button>
+
+        <button
+            class="filter-chip"
+            type="button"
+            aria-pressed="false"
+            hx-get="/pages/applications/filter/wishlist"
+            hx-target="#application-list"
+            hx-indicator="#global-loader"
+        >
+            Wishlist
+        </button>
+
+        <button
+            class="filter-chip"
+            type="button"
+            aria-pressed="false"
+            hx-get="/pages/applications/filter/applied"
+            hx-target="#application-list"
+            hx-indicator="#global-loader"
+        >
+            Applied
+        </button>
+
+        <button
+            class="filter-chip"
+            type="button"
+            aria-pressed="false"
+            hx-get="/pages/applications/filter/assessment"
+            hx-target="#application-list"
+            hx-indicator="#global-loader"
+        >
+            Assessment
+        </button>
+
+        <button
+            class="filter-chip"
+            type="button"
+            aria-pressed="false"
+            hx-get="/pages/applications/filter/interview"
+            hx-target="#application-list"
+            hx-indicator="#global-loader"
+        >
+            Interview
+        </button>
+
+        <button
+            class="filter-chip"
+            type="button"
+            aria-pressed="false"
+            hx-get="/pages/applications/filter/offer"
+            hx-target="#application-list"
+            hx-indicator="#global-loader"
+        >
+            Offer
+        </button>
+
+        <button
+            class="filter-chip"
+            type="button"
+            aria-pressed="false"
+            hx-get="/pages/applications/filter/rejected"
+            hx-target="#application-list"
+            hx-indicator="#global-loader"
+        >
+            Rejected
+        </button>
+    </div>
+</section>
+
+<div id="application-list" aria-live="polite">
+    {% include "partials/application_list.html" %}
 </div>
-<div class="filter-bar">
-    <button
-        hx-get="/pages/applications/filter/all"
-        hx-target="#application-list"
-    >
-        All
-    </button>
-
-    <button
-        hx-get="/pages/applications/filter/applied"
-        hx-target="#application-list"
-    >
-        Applied
-    </button>
-
-    <button
-        hx-get="/pages/applications/filter/interview"
-        hx-target="#application-list"
-    >
-        Interview
-    </button>
-
-    <button
-        hx-get="/pages/applications/filter/offer"
-        hx-target="#application-list"
-    >
-        Offer
-    </button>
-</div>
-<div id="application-list">{% include "partials/application_list.html" %}</div>
 
 {% endblock %}

@@ -1,46 +1,51 @@
 {% extends "base.html" %} {% block title %} Dashboard {% endblock %} {% block
 content %}
 
-<section class="dashboard-header">
-    <h1>Dashboard</h1>
-    <p>Track and manage your job applications.</p>
+<section class="page-header page-header-with-actions">
+    <div>
+        <p class="eyebrow">Overview</p>
+        <h1>Dashboard</h1>
+        <p>Track your application pipeline and see where your search stands.</p>
+    </div>
+
+    <a class="btn btn-primary" href="/pages/applications">View Applications</a>
 </section>
 
-<section class="stats-grid">
-    <div class="stat-card">
+<section class="stats-grid" aria-label="Application statistics">
+    <article class="stat-card stat-card-primary">
         <h3>Total Applications</h3>
         <span class="stat-value"> {{ stats.total }} </span>
-    </div>
+    </article>
 
-    <div class="stat-card">
+    <article class="stat-card">
         <h3>Wishlist</h3>
         <span class="stat-value"> {{ stats.wishlist }} </span>
-    </div>
+    </article>
 
-    <div class="stat-card">
+    <article class="stat-card">
         <h3>Applied</h3>
         <span class="stat-value"> {{ stats.applied }} </span>
-    </div>
+    </article>
 
-    <div class="stat-card">
+    <article class="stat-card">
         <h3>Assessment</h3>
         <span class="stat-value"> {{ stats.assessment }} </span>
-    </div>
+    </article>
 
-    <div class="stat-card">
+    <article class="stat-card">
         <h3>Interview</h3>
         <span class="stat-value"> {{ stats.interview }} </span>
-    </div>
+    </article>
 
-    <div class="stat-card">
+    <article class="stat-card">
         <h3>Offer</h3>
         <span class="stat-value"> {{ stats.offer }} </span>
-    </div>
+    </article>
 
-    <div class="stat-card">
+    <article class="stat-card">
         <h3>Rejected</h3>
         <span class="stat-value"> {{ stats.rejected }} </span>
-    </div>
+    </article>
 </section>
 
 {% endblock %}

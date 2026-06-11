@@ -1,12 +1,14 @@
-{% extends "base.html" %} {% block styles %}
-<link rel="stylesheet" href="/static/css/app_style.css" />
-{% endblock %} {% block title %} {{ application.company }} {% endblock %} {%
-block content %}
+{% extends "base.html" %} {% block title %} {{ application.company }} {%
+endblock %} {% block content %}
 
 <section class="detail-page">
     <div class="detail-card">
         <div class="detail-header">
-            <h1>{{ application.company }}</h1>
+            <div>
+                <a class="back-link" href="/pages/applications">&larr; Applications</a>
+                <p class="eyebrow">Application Detail</p>
+                <h1>{{ application.company }}</h1>
+            </div>
 
             <span class="status-badge status-{{ application.status.name }}">
                 {{ application.status.value }}
@@ -21,7 +23,7 @@ block content %}
 
             <div>
                 <strong>Location</strong>
-                <p>{{ application.location }}</p>
+                <p>{{ application.location or "Remote / Not specified" }}</p>
             </div>
         </div>
 
@@ -36,7 +38,12 @@ block content %}
         {% endif %} {% if application.job_url %}
 
         <div class="job-link">
-            <a href="{{ application.job_url }}" target="_blank">
+            <a
+                class="btn btn-secondary"
+                href="{{ application.job_url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
                 View Job Posting
             </a>
         </div>

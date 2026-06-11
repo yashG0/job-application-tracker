@@ -1,8 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="color-scheme" content="light dark" />
         <title>{% block title %} Job Application Tracker {% endblock %}</title>
 
         <link rel="stylesheet" href="/static/css/style.css" />
@@ -10,23 +11,54 @@
         {% block styles %} {% endblock %}
     </head>
     <body>
-        <nav class="navbar">
-            <div class="container">
-                <h1 class="logo">Job Application Tracker</h1>
+        <a class="skip-link" href="#main-content">Skip to content</a>
+
+        <header class="site-header">
+            <nav class="navbar container" aria-label="Primary navigation">
+                <a class="logo" href="/pages/dashboard">
+                    <span class="logo-mark" aria-hidden="true">JA</span>
+                    <span>Job Application Tracker</span>
+                </a>
 
                 <ul class="nav-links">
                     <li>
-                        <a href="/pages/dashboard"> Dashboard </a>
+                        <a href="/pages/dashboard" data-nav-link="dashboard">
+                            Dashboard
+                        </a>
                     </li>
 
                     <li>
-                        <a href="/pages/applications"> Applications </a>
+                        <a href="/pages/applications" data-nav-link="applications">
+                            Applications
+                        </a>
                     </li>
                 </ul>
-            </div>
-        </nav>
 
-        <main class="container">{% block content %} {% endblock %}</main>
+                <button
+                    class="theme-toggle"
+                    type="button"
+                    aria-label="Switch to dark mode"
+                    aria-pressed="false"
+                    data-theme-toggle
+                >
+                    <span aria-hidden="true" data-theme-icon>Dark</span>
+                </button>
+            </nav>
+        </header>
+
+        <div
+            id="global-loader"
+            class="global-loader htmx-indicator"
+            role="status"
+            aria-live="polite"
+        >
+            <span class="spinner" aria-hidden="true"></span>
+            Loading
+        </div>
+
+        <main id="main-content" class="container page-shell" tabindex="-1">
+            {% block content %} {% endblock %}
+        </main>
 
         <script src="/static/js/script.js"></script>
     </body>

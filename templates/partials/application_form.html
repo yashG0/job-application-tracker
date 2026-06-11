@@ -1,30 +1,71 @@
 <form
+    id="application-create-form"
     class="application-form"
     hx-post="/pages/applications/new"
     hx-target="#application-list"
-    hx-on::after-request="
-        this.reset();
-
-        const msg =
-        document.getElementById('success-message');
-
-        msg.innerHTML =
-        '<div class=&quot;success-alert&quot;>✓ Application created successfully</div>';
-
-        setTimeout(() => {
-            msg.innerHTML = '';
-        }, 3000);
-    "
+    hx-indicator="#global-loader"
 >
-    <input type="text" name="company" placeholder="Company" required />
+    <div class="form-header">
+        <div>
+            <p class="eyebrow">New record</p>
+            <h2>Add an application</h2>
+        </div>
+    </div>
 
-    <input type="text" name="position" placeholder="Position" required />
+    <label class="field">
+        <span>Company</span>
+        <input
+            type="text"
+            name="company"
+            placeholder="Acme Inc."
+            autocomplete="organization"
+            required
+        />
+    </label>
 
-    <input type="text" name="location" placeholder="Location" />
+    <label class="field">
+        <span>Position</span>
+        <input
+            type="text"
+            name="position"
+            placeholder="Frontend Engineer"
+            autocomplete="organization-title"
+            required
+        />
+    </label>
 
-    <input type="url" name="job_url" placeholder="Job URL" />
+    <label class="field">
+        <span>Location</span>
+        <input
+            type="text"
+            name="location"
+            placeholder="Remote, Bengaluru, New York..."
+            autocomplete="address-level2"
+        />
+    </label>
 
-    <textarea name="notes" placeholder="Notes"></textarea>
+    <label class="field">
+        <span>Job URL</span>
+        <input
+            type="url"
+            name="job_url"
+            placeholder="https://company.com/careers/role"
+            inputmode="url"
+        />
+    </label>
 
-    <button type="submit" class="primary-btn">Create Application</button>
+    <label class="field field-full">
+        <span>Notes</span>
+        <textarea
+            name="notes"
+            rows="4"
+            placeholder="Recruiter, referral, next steps, salary range..."
+        ></textarea>
+    </label>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+            Create Application
+        </button>
+    </div>
 </form>
